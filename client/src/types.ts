@@ -21,3 +21,16 @@ export interface Movie {
   medium_cover_image: string;
   large_cover_image: string;
 }
+
+export interface Tweet {
+  id: number;
+  text: string;
+  author?: User;
+}
+
+export interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  fullName?: string;
+}
