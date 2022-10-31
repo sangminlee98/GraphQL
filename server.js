@@ -4,14 +4,17 @@ let tweets = [
   {
     id: "1",
     text: "first one",
+    userId: "2",
   },
   {
     id: "2",
     text: "second one",
+    userId: "1",
   },
   {
     id: "3",
     text: "thrid one",
+    userId: "2",
   },
 ];
 
@@ -33,8 +36,14 @@ const typeDefs = gql`
     id: ID!
     firstName: String!
     lastName: String!
+    """
+    Is the sum of firstName + lastName as a string
+    """
     fullName: String!
   }
+  """
+  Tweet object represents a resource for a Tweet
+  """
   type Tweet {
     id: ID!
     text: String!
@@ -48,6 +57,9 @@ const typeDefs = gql`
   }
   type Mutation {
     postTweet(text: String!, userId: ID!): Tweet!
+    """
+    Deletes a Tweet if found, else returns false
+    """
     deleteTweet(id: ID!): Boolean!
   }
 `;
@@ -69,6 +81,7 @@ const resolvers = {
       const newTweet = {
         id: tweets.length + 1,
         text,
+        userId,
       };
       tweets.push(newTweet);
       return newTweet;
@@ -83,6 +96,11 @@ const resolvers = {
   User: {
     fullName(root) {
       return `${root.firstName} ${root.lastName}`;
+    },
+  },
+  Tweet: {
+    author({ userId }) {
+      return users.find((user) => user.id === userId);
     },
   },
 };
