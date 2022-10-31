@@ -1,4 +1,4 @@
-export interface Movie {
+export interface IMovie {
   id: number;
   url: string;
   imdb_code: string;
@@ -20,15 +20,16 @@ export interface Movie {
   small_cover_image: string;
   medium_cover_image: string;
   large_cover_image: string;
+  isLiked?: boolean;
 }
 
-export interface Tweet {
+export interface ITweet {
   id: number;
   text: string;
-  author?: User;
+  author?: IUser;
 }
 
-export interface User {
+export interface IUser {
   id: number;
   firstName: string;
   lastName: string;

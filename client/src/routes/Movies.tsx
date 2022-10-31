@@ -1,6 +1,6 @@
 import { useQuery, gql } from "@apollo/client";
 import { Link } from "react-router-dom";
-import { Movie, Tweet } from "../types";
+import { IMovie, ITweet } from "../types";
 
 const ALL_MOVIES = gql`
   query getMovies {
@@ -17,9 +17,12 @@ const ALL_MOVIES = gql`
     }
   }
 `;
-
+interface IData {
+  allMovies: IMovie[];
+  allTweets: ITweet[];
+}
 function Movies() {
-  const { loading, data, error } = useQuery(ALL_MOVIES);
+  const { loading, data, error } = useQuery<IData>(ALL_MOVIES);
   // const [movies, setMovies] = useState<Movie[]>([]);
   // const client = useApolloClient();
   // useEffect(() => {
@@ -42,7 +45,7 @@ function Movies() {
     <>
       <h1>Movies</h1>
       <ul>
-        {data.allMovies.map((movie: Movie) => (
+        {data?.allMovies.map((movie) => (
           <li key={movie.id}>
             <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
           </li>
@@ -50,7 +53,7 @@ function Movies() {
       </ul>
       <h1>Tweets</h1>
       <ul>
-        {data.allTweets.map((tweet: Tweet) => (
+        {data?.allTweets.map((tweet) => (
           <li key={tweet.id}>
             {tweet.text}/by: {tweet.author?.fullName}
           </li>
